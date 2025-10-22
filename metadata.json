@@ -1,0 +1,5 @@
+{
+  "name": "ExamFlow",
+  "description": "ExamFlow is a web-based utility designed to automate the process of creating exam hall seating arrangements. It takes lists of students and available exam halls and generates a randomized, printable seating plan to minimize academic malpractice and streamline administration.",
+  "requestFramePermissions": []
+}

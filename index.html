@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-M" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-w, initial-scale=1.0" />
+    <title>ExamFlow - The seamless solution for exam seating.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+      /* --- Cinematic Welcome Page Animations --- */
+      .cinematic-welcome-container {
+        opacity: 0;
+        animation: fadeInScene 1s ease-in forwards;
+      }
+      @keyframes fadeInScene {
+        to { opacity: 1; }
+      }
+
+      .welcome-intro-text {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s ease-out 0.5s forwards;
+      }
+
+      .welcome-brand-text {
+        opacity: 0;
+        transform: scale(0.8);
+        animation: elasticPopIn 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.5) 1s forwards;
+        background: linear-gradient(45deg, #4A90E2, #6B5CE5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        text-shadow: 0 0 15px rgba(107, 92, 229, 0.3);
+      }
+
+      .welcome-brand-text::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -150%;
+          width: 70%;
+          height: 100%;
+          background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+          transform: skewX(-25deg);
+          animation: text-shimmer 1s ease-in-out 2.2s forwards;
+      }
+
+      .welcome-tagline {
+        opacity: 0;
+        transform: translateY(-10px);
+        animation: fadeInUp 1s ease-out 1.8s forwards;
+      }
+      
+      .welcome-tagline span {
+        opacity: 0;
+        display: inline-block;
+        animation: fadeInLetter 0.1s ease-out forwards;
+      }
+
+      .welcome-button {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes elasticPopIn {
+        0% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.1); }
+        80% { transform: scale(0.95); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes text-shimmer {
+          to { left: 150%; }
+      }
+
+      @keyframes fadeInLetter {
+        to { opacity: 1; }
+      }
+
+      /* --- Revisit Welcome Page Animations --- */
+      .revisit-welcome-container {
+          opacity: 0;
+          animation: fadeInScene 0.5s ease-in forwards;
+      }
+
+      .revisit-intro-text,
+      .revisit-brand-text,
+      .revisit-tagline,
+      .revisit-button {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.6s ease-out forwards;
+      }
+
+      .revisit-brand-text {
+          /* Keep visual style but use simpler animation */
+          background: linear-gradient(45deg, #4A90E2, #6B5CE5);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0 0 15px rgba(107, 92, 229, 0.3);
+          animation-delay: 0.1s;
+      }
+
+      .revisit-tagline {
+          animation-delay: 0.2s;
+      }
+
+      /* Stagger button animations for revisit */
+      .revisit-button[href="#/student"] {
+        animation-delay: 0.3s;
+      }
+      .revisit-button[href="#/invigilator"] {
+          animation-delay: 0.4s;
+      }
+
+      /* Styles for site-wide SVG Logo Animation */
+      .animated-svg-logo .logo-frame {
+        opacity: 0;
+        animation: logo-frame-fade 0.5s ease-out forwards;
+      }
+      .animated-svg-logo .logo-checkmark {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        animation: logo-checkmark-draw 0.6s ease-in-out 0.3s forwards;
+      }
+      .animated-svg-logo .logo-flow {
+        stroke-dasharray: 150;
+        stroke-dashoffset: 150;
+        animation: logo-flow-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards;
+      }
+
+      @keyframes logo-frame-fade {
+        to { opacity: 1; }
+      }
+      @keyframes logo-checkmark-draw {
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes logo-flow-draw {
+        to { stroke-dashoffset: 0; }
+      }
+
+      @keyframes popup-animation {
+        from {
+          opacity: 0;
+          transform: scale(0.95) translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      .animate-popup {
+        animation: popup-animation 0.2s ease-out forwards;
+      }
+
+      .print-only {
+        display: none;
+      }
+
+      @media print {
+        html.dark {
+          color-scheme: light;
+        }
+        body {
+          font-size: 10pt;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .print-only {
+          display: block !important;
+        }
+        .printable-section h1, .printable-section h2, .printable-section p, .printable-section span, .printable-section th, .printable-section td {
+          color: black !important;
+        }
+        .printable-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+        .printable-table th, .printable-table td {
+          border: 1px solid #999;
+          padding: 6px;
+          text-align: left;
+        }
+        .printable-table th {
+          background-color: #eee !important;
+          font-weight: bold;
+        }
+        .signature-box {
+            display: inline-block;
+            width: 150px;
+            height: 25px;
+            vertical-align: middle;
+        }
+        @page {
+          size: A4;
+          margin: 15mm;
+        }
+
+        /* --- Selective Printing Styles --- */
+        /* When printing seating plan, hide the attendance summary */
+        body.printing-seating-plan .printable-attendance-summary {
+            display: none !important;
+        }
+        /* When printing attendance, hide the seating plan */
+        body.printing-attendance .printable-seating-plan {
+            display: none !important;
+        }
+      }
+
+      /* --- Hide Scrollbar on Mobile/Tablet --- */
+      @media (max-width: 1024px) {
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        /* For IE, Edge and Firefox */
+        .hide-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+      }
+
+      /* --- Bench Layout Tooltip --- */
+      .tooltip-bubble {
+        transform: translate(-50%, -100%);
+        pointer-events: none;
+        animation: tooltip-fade-in 0.2s ease-out;
+        width: max-content;
+      }
+      .tooltip-bubble::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #111827 transparent transparent transparent; /* Matches dark:bg-gray-900 */
+      }
+       html.light .tooltip-bubble::after {
+        border-color: #f3f4f6 transparent transparent transparent; /* Matches bg-gray-100 */
+      }
+
+      @keyframes tooltip-fade-in {
+        from { opacity: 0; transform: translate(-50%, -90%); }
+        to { opacity: 1; transform: translate(-50%, -100%); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 dark:bg-[#0F1B2A] text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
